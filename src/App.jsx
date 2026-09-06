@@ -3,6 +3,8 @@ import { useAuth } from './context/AuthContext'
 import DashboardLayout from './layouts/DashboardLayout'
 import PublicLayout from './layouts/PublicLayout'
 import DashboardHome from './components/DashboardHome'
+import StudentDashboard from './components/StudentDashboard'
+import IndustryDashboard from './components/IndustryDashboard'
 import Landing from './pages/Landing'
 import RoleSelection from './pages/RoleSelection'
 import Login from './pages/Login'
@@ -15,7 +17,7 @@ function ProtectedRoute({ children, roles }) {
   return children
 }
 
-function RoleDashboard({ role }) { return <ProtectedRoute roles={[role]}><DashboardHome role={role} /></ProtectedRoute> }
+function RoleDashboard({ role }) { return <ProtectedRoute roles={[role]}>{role === 'student' ? <StudentDashboard /> : role === 'industry' ? <IndustryDashboard /> : <DashboardHome role={role} />}</ProtectedRoute> }
 function SharedPage({ title, description }) { return <ProtectedRoute><PlaceholderPage title={title} description={description} /></ProtectedRoute> }
 
 export default function App() {
