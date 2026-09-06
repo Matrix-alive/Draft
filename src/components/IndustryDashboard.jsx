@@ -1,5 +1,5 @@
 import { ArrowRight, BarChart3, Bell, Building2, CalendarDays, ChevronRight, Clock3, Handshake, MoreHorizontal, Plus, Send, Sparkles, UsersRound } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 import { industryDashboardData as data } from '../data/industryDashboardData'
 import { Button, Icon } from './ui'
@@ -43,5 +43,6 @@ function NotificationsCard() {
 }
 
 export default function IndustryDashboard() {
-  return <div className="industry-dashboard"><header className="industry-welcome"><div><span className="eyebrow">Industry workspace · Tuesday, 16 September 2026</span><h1>Good morning, Jordan.</h1><p>Build the next cohort with a clearer view of your talent pipeline.</p></div><Button icon={Plus} onClick={() => window.location.assign('/industry/post')}>Create opportunity</Button></header><OverviewStats /><div className="industry-top-grid"><CompanyOverview /><QuickActions /></div><div className="industry-main-grid"><OpportunitiesCard /><SkillDistribution /></div><div className="industry-lower-grid"><CollaborationCard /><ApplicantsCard /><NotificationsCard /></div></div>
+  const navigate = useNavigate()
+  return <div className="industry-dashboard"><header className="industry-welcome"><div><span className="eyebrow">Industry workspace · Tuesday, 16 September 2026</span><h1>Good morning, Jordan.</h1><p>Build the next cohort with a clearer view of your talent pipeline.</p></div><Button icon={Plus} onClick={() => navigate('/industry/post')}>Create opportunity</Button></header><OverviewStats /><div className="industry-top-grid"><CompanyOverview /><QuickActions /></div><div className="industry-main-grid"><OpportunitiesCard /><SkillDistribution /></div><div className="industry-lower-grid"><CollaborationCard /><ApplicantsCard /><NotificationsCard /></div></div>
 }

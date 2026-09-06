@@ -1,5 +1,5 @@
 import { ArrowRight, BarChart3, CalendarDays, ChevronRight, FileBarChart, GraduationCap, Handshake, MoreHorizontal, Plus, TrendingUp, UsersRound } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Bar, BarChart, CartesianGrid, Cell, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { academiaDashboardData as data } from '../data/academiaDashboardData'
 import { Button, Icon } from './ui'
@@ -41,5 +41,6 @@ function NotificationsCard() {
 }
 
 export default function AcademiaDashboard() {
-  return <div className="academia-dashboard"><header className="academia-welcome"><div><span className="eyebrow">Academic workspace · Tuesday, 16 September 2026</span><h1>Good morning, Dr. Patel.</h1><p>Turn student signals into better learning and placement outcomes.</p></div><Button icon={Plus} onClick={() => window.location.assign('/collaboration')}>Start collaboration</Button></header><OverviewStats /><div className="academia-top-grid"><InstitutionOverview /><QuickActions /></div><div className="academia-chart-grid"><SkillGapsChart /><PlacementTrendChart /></div><div className="academia-lower-grid"><PartnershipCard /><ProjectsCard /><NotificationsCard /></div></div>
+  const navigate = useNavigate()
+  return <div className="academia-dashboard"><header className="academia-welcome"><div><span className="eyebrow">Academic workspace · Tuesday, 16 September 2026</span><h1>Good morning, Dr. Patel.</h1><p>Turn student signals into better learning and placement outcomes.</p></div><Button icon={Plus} onClick={() => navigate('/collaboration')}>Start collaboration</Button></header><OverviewStats /><div className="academia-top-grid"><InstitutionOverview /><QuickActions /></div><div className="academia-chart-grid"><SkillGapsChart /><PlacementTrendChart /></div><div className="academia-lower-grid"><PartnershipCard /><ProjectsCard /><NotificationsCard /></div></div>
 }

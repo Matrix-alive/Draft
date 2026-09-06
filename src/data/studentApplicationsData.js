@@ -65,7 +65,7 @@ export const studentApplications = [
     ],
   },
   {
-    id: 'greengrid-energy',
+    id: 'greengrid-energy-ml',
     opportunity: 'Energy demand research project',
     organization: 'GreenGrid Energy',
     type: 'Project',
