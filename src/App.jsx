@@ -5,6 +5,7 @@ import PublicLayout from './layouts/PublicLayout'
 import DashboardHome from './components/DashboardHome'
 import StudentDashboard from './components/StudentDashboard'
 import IndustryDashboard from './components/IndustryDashboard'
+import AcademiaDashboard from './components/AcademiaDashboard'
 import Landing from './pages/Landing'
 import RoleSelection from './pages/RoleSelection'
 import Login from './pages/Login'
@@ -17,7 +18,7 @@ function ProtectedRoute({ children, roles }) {
   return children
 }
 
-function RoleDashboard({ role }) { return <ProtectedRoute roles={[role]}>{role === 'student' ? <StudentDashboard /> : role === 'industry' ? <IndustryDashboard /> : <DashboardHome role={role} />}</ProtectedRoute> }
+function RoleDashboard({ role }) { return <ProtectedRoute roles={[role]}>{role === 'student' ? <StudentDashboard /> : role === 'industry' ? <IndustryDashboard /> : <AcademiaDashboard />}</ProtectedRoute> }
 function SharedPage({ title, description }) { return <ProtectedRoute><PlaceholderPage title={title} description={description} /></ProtectedRoute> }
 
 export default function App() {
