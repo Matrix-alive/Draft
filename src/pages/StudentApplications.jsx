@@ -1,0 +1,27 @@
+import { ArrowLeft, ArrowRight, BriefcaseBusiness, CalendarDays, Check, ChevronRight, Clock3, ExternalLink, MapPin, MessageCircle, SlidersHorizontal, X } from 'lucide-react'
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { applicationStatuses, studentApplications } from '../data/studentApplicationsData'
+
+function StatusBadge({ status, tone }) { return <span className={`application-status ${tone}`} aria-label={`Status: ${status}`}><span aria-hidden="true" />{status}</span> }
+
+function ApplicationCard({ application, selected, onSelect }) {
+  return <button className={`application-card ${selected ? 'selected' : ''}`} onClick={() => onSelect(application.id)} aria-pressed={selected}><div className={`application-logo ${application.tone}`}>{application.initials}</div><div className="application-card-main"><div className="application-card-heading"><div><span className="eyebrow">{application.type}</span><h2>{application.opportunity}</h2><p>{application.organization}</p></div><ChevronRight size={17} className="application-chevron" /></div><div className="application-card-meta"><span><CalendarDays size={13} />Applied {application.applicationDate}</span><StatusBadge status={application.status} tone={application.statusTone} /></div><div className="application-next-step"><span>Next step</span><strong>{application.nextStep}</strong></div></div></button>
+}
+
+function ApplicationTimeline({ application }) {
+  return <div className="application-timeline">{application.timeline.map((event, index) => <div className={`timeline-event ${event.complete ? 'complete' : 'current'}`} key={`${event.title}-${event.date}`}><div className="timeline-marker">{event.complete ? <Check size={12} /> : <span>{index + 1}</span>}</div><div className="timeline-event-copy"><div><strong>{event.title}</strong><time>{event.date}</time></div><p>{event.detail}</p></div></div>)}</div>
+}
+
+function ApplicationDetail({ application, onClose }) {
+  return <aside className="application-detail" aria-label={`${application.opportunity} application details`}><div className="application-detail-header"><div><span className="eyebrow">Application details</span><h2>{application.opportunity}</h2><p>{application.organization}</p></div><button className="application-close" onClick={onClose} aria-label="Close application details"><X size={18} /></button></div><div className="application-detail-tags"><StatusBadge status={application.status} tone={application.statusTone} /><span><BriefcaseBusiness size={13} />{application.type}</span></div><p className="application-summary">{application.summary}</p><div className="application-facts"><span><MapPin size={14} />{application.location}</span><span><Clock3 size={14} />{application.duration}</span><span><SlidersHorizontal size={14} />{application.stipend}</span></div><div className="application-detail-section"><span className="eyebrow">Your journey</span><ApplicationTimeline application={application} /></div><div className="application-detail-actions"><Link className="button button-secondary" to={`/opportunities/${application.id}`}>View opportunity <ExternalLink size={15} /></Link><button className="button button-ghost"><MessageCircle size={15} /> Contact support</button></div></aside>
+}
+
+export default function StudentApplications() {
+  const [activeTab, setActiveTab] = useState('All')
+  const [selectedId, setSelectedId] = useState(studentApplications[0].id)
+  const filteredApplications = activeTab === 'All' ? studentApplications : studentApplications.filter((application) => application.status === activeTab)
+  const selectedApplication = studentApplications.find((application) => application.id === selectedId)
+  const selectApplication = (id) => setSelectedId(id)
+  return <div className="applications-page"><header className="applications-page-heading"><div><Link to="/student" className="back-link"><ArrowLeft size={16} /> Back to overview</Link><span className="eyebrow accent-eyebrow">Student workspace</span><h1>Your applications</h1><p>Keep every opportunity and next step in one clear view.</p></div><div className="applications-summary"><strong>{studentApplications.length}</strong><span>total applications</span></div></header><nav className="application-tabs" aria-label="Application status filters">{applicationStatuses.map((status) => <button className={activeTab === status ? 'active' : ''} onClick={() => setActiveTab(status)} key={status} aria-current={activeTab === status ? 'page' : undefined}>{status}<span>{status === 'All' ? studentApplications.length : studentApplications.filter((application) => application.status === status).length}</span></button>)}</nav><div className="applications-content"><main className="applications-list"><div className="applications-list-heading"><span>Showing {filteredApplications.length} applications</span><span>Updated just now</span></div>{filteredApplications.length > 0 ? filteredApplications.map((application) => <ApplicationCard key={application.id} application={application} selected={application.id === selectedId} onSelect={selectApplication} />) : <div className="applications-empty"><CalendarDays size={22} /><h2>No {activeTab.toLowerCase()} applications</h2><p>Applications will appear here when they move into this stage.</p><button className="button button-secondary" onClick={() => setActiveTab('All')}>View all applications</button></div>}</main>{selectedApplication && <ApplicationDetail application={selectedApplication} onClose={() => setSelectedId(null)} />}</div></div>
+}
