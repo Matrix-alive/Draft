@@ -1,0 +1,7 @@
+import { ArrowLeft, ArrowRight, Building2, GraduationCap, UserRound } from 'lucide-react'
+import { Link, useNavigate } from 'react-router-dom'
+import { roles } from '../data/mockData'
+import { useAuth } from '../context/AuthContext'
+
+const roleIcons = { student: UserRound, industry: Building2, academia: GraduationCap }
+export default function RoleSelection() { const navigate = useNavigate(); const { signIn } = useAuth(); const chooseRole = async (role) => { await signIn(role, role === 'student' ? 'Aisha Khan' : role === 'industry' ? 'Jordan Lee' : 'Dr. Maya Patel'); navigate(`/${role}`) }; return <div className="auth-page"><Link to="/" className="brand auth-brand"><span className="brand-mark">B</span><span>bridgework</span></Link><div className="auth-content"><Link to="/" className="back-link"><ArrowLeft size={16} /> Back to home</Link><span className="eyebrow accent-eyebrow">Start with your perspective</span><h1>Choose your workspace.</h1><p className="auth-lead">A focused home for the work you are here to do. You can switch contexts later.</p><div className="role-list">{Object.entries(roles).map(([key, role]) => { const RoleIcon = roleIcons[key]; return <button className="role-option" key={key} onClick={() => chooseRole(key)}><span className={`role-option-icon ${role.color}`}><RoleIcon size={21} /></span><span><strong>{role.label}</strong><small>{role.description}</small></span><ArrowRight size={19} /></button> })}</div><small className="dev-note">Development mode: selecting a role creates a local mock session.</small></div></div> }
